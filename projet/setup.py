@@ -20,6 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'box = projet.detector_pose_move_box:main'
         ],
     },
 )
