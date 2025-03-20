@@ -1,54 +1,115 @@
-📄 This project in short
+# 📄 Projet inventaire d'atelier
+
 Ce dépôt contient le package ROS2 permettant de respecter le comportement de notre robot dans le simulateur Gazebo.
 
-Notre projet a pour but d'automatiser une action d'inventaire que l'on peut retrouver dans le monde de l'industrie. Grâce à des codes Aruco, le robot reconnaît l'étagère et les produits qu'il voit, pour ensuite les compter et comparer ces informations avec celles présentes dans une base de données.
-Notre robot de base est le robot Tiago. Nous utilisons donc les dépendences liés à ce robot.
-Notre package est uniquement compatible avec la distribution Jarry de ROS2. 
+Notre projet a pour but d'automatiser une action d'inventaire que l'on peut retrouver dans le monde de l'industrie. Grâce à des codes ArUco, le robot reconnaît l'étagère et les produits qu'il voit, pour ensuite les compter et comparer ces informations avec celles présentes dans une base de données. 
 
-🚀 Quickstart
+Notre robot de base est le robot **Tiago**. Nous utilisons donc les dépendances liées à ce robot. Notre package est uniquement compatible avec la distribution **Jazzy** de ROS2.
 
-Prérequis:
-Pour utiliser notre package, la distribution Jazzy de ROS2 doit être installée sur votre ordinateur. Vous pouvez suivre [ce tutoriel]([url](https://docs.ros.org/en/jazzy/Installation.html)) pour installer ROS2 Jazzy.
+---
 
-Instructions d'installation:
-Pour installer notre package, créez tout d'abord un dossier réprésentant votre workspace. Celui-ci contiendra tout votre espace de travail. Lancez la commande
+## 🚀 Quickstart
 
-mkdir <nom_de_votre_workspace>
+### 📌 Prérequis
+Pour utiliser notre package, la distribution **Jazzy** de ROS2 doit être installée sur votre ordinateur. Vous pouvez suivre ce tutoriel pour installer ROS2 Jazzy.
 
-Ensuite, dans votre workspace, créez un dossier "src" (source), qui contiendra tout vos packages ROS. Lancez les commande:
+### 🛠️ Installation
+1. **Créez un workspace** :
+   ```sh
+   mkdir <nom_de_votre_workspace>
+   ```
+2. **Créez un dossier `src` dans votre workspace** :
+   ```sh
+   cd ~/<nom_de_votre_workspace>
+   mkdir src
+   ```
+3. **placez le package "projet" dans votre workspace**
 
-cd ~/<nom_de_votre_workspace>
-mkdir src
+4. **placez le fichier warehouse.world dans le worksapce de tiago**:
+   ```sh
+   cd ~/tiago/src/br2_gazebo_worlds\worlds
+   ```
+4. **placez le contenu du dossier models dans le chemain suivant**:
+   ```sh
+   cd ~/tiago/src/br2_gazebo_worlds\models
+   ```
 
-Rentrez dans ce dossier et clonez le package ROS 2 en utilisant la commande:
 
-git clone https://github.com/AzadRojoa/robotique_de_service.git
 
-Vous êtes dorénavant prêt à utiliser notre package. 
+Vous êtes dorénavant prêt à utiliser notre package.
 
-Instructions de lancement:
-Pour démarrer notre package, dirigez-vous dans votre workspace et compilez le avec la commande:
+---
 
-colcon build --symilnk-install
+### ▶️ Lancement du package
 
-Activez ensuite ROS2 dans votre workspace en utilisant la commande:
+1. **Compilez le workspace br2_gazebo_worlds de tiago** :
+   ```sh
+   cd ~/tiago
+   colcon build --symlink-install --packages-select br2_gazebo_worlds
+   ```
 
-source install/setup.bash
+2. **Compilez votre workspace** :
+   ```sh
+   cd ~/<nom_de_votre_workspace>
+   colcon build --symlink-install
+   ```
+3. **Activez ROS2 dans votre workspace** :
+   ```sh
+   source install/setup.bash
+   ```
+4. **Ouvrez trois terminaux** (Utilisez `Ctrl + Alt + T` pour en ouvrir un).
 
-Démarrer ensuite 3 terminal. Vous pouvez utilisez la commande Ctrl + Alt + T pour en ouvrir un.
-
-1. Dans votre premier terminal, ouvrez votre monde Gazebo avec:
-
+#### Terminal 1 : Lancer le monde Gazebo
+```sh
 ros2 launch tiago_gazebo tiago_gazebo.launch.py is_public_sim:=True world_name:=warehouse
+```
 
-2. Dans le deuxième terminal, lancez un script pour téléopérer votre robot:
-
+#### Terminal 2 : Lancer le script de téléopération du robot
+```sh
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r /cmd_vel:=/key_vel
+```
 
-3. Dans le troisième terminal, lancez le script correspondant au comportement du robot:
-
+#### Terminal 3 : Lancer le comportement du robot
+```sh
 ros2 run projet box
+```
 
+### 🔍 Utilisation
+À l'aide du terminal de téléopération, déplacez votre robot face à un code ArUco. Il devrait le détecter et s'en approcher automatiquement.
 
-À l'aide du terminal de téléopération, déplacez votre robot face à un code Aruco. Il devraitle détecter et s'approcher de ce code automatiquement.
+---
+
+## 📂 Génération de la structure de fichiers pour les tags ArUco
+
+Un script Python est fourni pour générer automatiquement la structure de fichiers nécessaire pour les modèles ArUco dans Gazebo.
+
+### 📥 Installation
+Assurez-vous d'avoir Python installé sur votre système.
+
+### ▶️ Exécution
+1. **Lancez le script en indiquant le numéro du tag ArUco souhaité** :
+   ```sh
+   python script.py <numéro_du_tag>
+   ```
+   Exemple :
+   ```sh
+   python script.py 110
+   ```
+   **ou**
+   ```sh
+   python3 script.py <numéro_du_tag>
+   ```
+   Exemple :
+   ```sh
+   python3 script.py 110
+   ```
+
+2. **Le script créera une structure de dossiers et de fichiers**, comprenant :
+   - Un dossier `aruco_tag_<numéro>` contenant :
+     - Un fichier `model.config` définissant le modèle.
+     - Un fichier `model.sdf` décrivant la structure du modèle dans Gazebo.
+     - Un dossier `materials/textures/` pour stocker les textures des tags.
+     - Un dossier `meshes/` contenant les fichiers `.obj` et `.mtl` décrivant la géométrie du tag.
+
+3. **Une fois le modèle généré, ajoutez-le à votre environnement Gazebo pour utilisation.**
 
