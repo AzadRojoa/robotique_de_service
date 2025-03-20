@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<sdf version="1.6">
+    <world name='default'>
+        <physics name="50ms" type="ignored">
+            <max_step_size>0.005</max_step_size>
+            <real_time_factor>1.0</real_time_factor>
+        </physics>
+        <plugin
+            filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics">
+        </plugin>
+        <plugin
+            filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands">
+        </plugin>
+        <plugin
+            filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster">
+        </plugin>
+        <plugin
+          filename="gz-sim-sensors-system"
+          name="gz::sim::systems::Sensors">
+          <render_engine>ogre2</render_engine>
+        </plugin>
+        <plugin
+          filename="gz-sim-imu-system"
+          name="gz::sim::systems::Imu">
+        </plugin>
+        <!-- To add realistic gravity, do: 0.0 0.0 -9.8, otherwise do 0.0 0.0 0.0 -->
+        <gravity>0.0 0.0 -9.8</gravity>
+
+        <scene>
+            <ambient>0.4 0.4 0.4 1</ambient>
+            <background>0.7 0.7 0.7 1</background>
+            <shadows>false</shadows>
+            <grid>false</grid>
+            <origin_visual>false</origin_visual>
+        </scene>
+    <!-- A global light source -->
+    <light name='sun'
+        type='directional'>
+        <cast_shadows>0</cast_shadows>
+        <pose>0 0 10 0 -0 0</pose>
+        <diffuse>0.8 0.8 0.8 1</diffuse>
+        <specular>0.2 0.2 0.2 1</specular>
+        <attenuation>
+            <range>1000</range>
+            <constant>0.9</constant>
+            <linear>0.01</linear>
+            <quadratic>0.001</quadratic>
+        </attenuation>
+        <direction>-0.5 0.1 -0.9</direction>
+    </light>
+    <!-- Aruco tag 0 -->
+    <include>
+      <uri>model://aruco_tag_0</uri>
+      <pose>-1.74 -2.86 1.31 1.57 -0 3.12</pose>
+    </include>
+    <!-- Aruco tag 1 -->
+    <include>
+      <uri>model://aruco_tag_1</uri>
+      <pose>-2.56 -2.86 1.31 1.57 -0 3.12</pose>
+    </include>
+    <!-- Aruco tag 2 -->
+    <include>
+      <uri>model://aruco_tag_2</uri>
+      <pose>-3.39 -2.84 1.31 1.57 -0 3.12</pose>
+    </include>
+    <!-- Aruco tag 3 -->
+    <include>
+      <uri>model://aruco_tag_3</uri>
+      <pose>-4.33 -2.84 1.31 1.57 -0 3.12</pose>
+    </include>
+    <!-- Box for aruco 0 -->
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/german/models/Cardboard%20Box
+      </uri>
+      <pose>-1.92 -2.54 0.28 0 0 1.57</pose>
+      <static>true</static>
+      <name>box_0</name>
+    </include>
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/german/models/Cardboard%20Box
+      </uri>
+      <pose>-1.93 -2.54 0.61 0 0 1.57</pose>
+      <static>true</static> 
+      <name>box_1</name>
+    </include>
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/german/models/Cardboard%20Box
+      </uri>
+      <pose>-1.91 -2.56 0.93 0 0 1.57</pose>
+      <static>true</static> 
+      <name>box_2</name>
+    </include>
+    <!-- Box for aruco 1 -->
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/german/models/Cardboard%20Box
+      </uri>
+      <pose>-2.76 -2.54 0.28 0 0 1.57</pose>
+      <static>true</static>
+      <name>box_3</name>
+    </include>
+    <!-- Box for aruco 2 -->
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/german/models/Cardboard%20Box
+      </uri>
+      <pose>-3.56 -2.55 0.28 0 0 1.57</pose>
+      <static>true</static>
+      <name>box_4</name>
+    </include>
+    <include>
+      <uri>
+        https://fuel.gazebosim.org/1.0/german/models/Cardboard%20Box
+      </uri>
+      <pose>-3.55 -2.52 0.60 0 0 1.57</pose>
+      <static>true</static>
+      <name>box_5</name>
+    </include>
+    <!-- Ground and walls -->
+    <include>
+      <uri>
+        model://aws_robomaker_warehouse_WallB_01
+      </uri>
+      <pose>-4 4 0 0 -0 1.57</pose>
+    </include>
+    <include>
+      <uri>
+        model://aws_robomaker_warehouse_GroundB_01
+      </uri>
+      <pose>-4 4 0 0 -0 1.57</pose>
+    </include>
+    </world>
+</sdf>

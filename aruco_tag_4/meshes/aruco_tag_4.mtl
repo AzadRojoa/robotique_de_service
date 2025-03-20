@@ -1,0 +1,5 @@
+newmtl aruco_tag_4
+map_Kd ../materials/textures/4.jpg
+map_Ka ../materials/textures/4.jpg
+
+
